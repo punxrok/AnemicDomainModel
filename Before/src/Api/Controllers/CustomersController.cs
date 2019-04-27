@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logic.Dtos;
 using Logic.Entities;
 using Logic.Repositories;
 using Logic.Services;
@@ -27,19 +28,48 @@ namespace Api.Controllers
         public IActionResult Get(long id)
         {
             Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
-            {
+            if (customer == null)           
                 return NotFound();
-            }
+            
 
-            return Json(customer);
+            var customerDto = new CustomerDto
+            {
+                Id = customer.Id,
+                Email = customer.Email,
+                MoneySpent = customer.MoneySpent,
+                Name = customer.Name,
+                Status = customer.Status.ToString(),
+                StatusExpirationDate = customer.StatusExpirationDate,
+                PurchasedMovies = customer.PurchasedMovies.Select(s => new PurchasedMovieDto()
+                {
+                    ExpirationDate = s.ExpirationDate,
+                    Price = s.Price,
+                    PurchaseDate = s.PurchaseDate,
+
+                    Movie = new MovieDto()
+                    {
+                        Id = s.Movie.Id,
+                        Name = s.Movie.Name
+                    }
+                }).ToList()
+            };
+
+            return Json(customerDto);
         }
 
         [HttpGet]
         public JsonResult GetList()
         {
             IReadOnlyList<Customer> customers = _customerRepository.GetList();
-            return Json(customers);
+            return Json(customers.Select(c => new CustomerInListDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Email = c.Email,
+                Status = c.Status.ToString(),
+                StatusExpirationDate = c.StatusExpirationDate,
+                MoneySpent = c.MoneySpent
+            }).ToList());
         }
 
         [HttpPost]
