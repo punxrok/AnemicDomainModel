@@ -33,5 +33,15 @@ namespace Logic.Entities
         {
             return Value.GetHashCode();
         }
+
+        public static implicit operator string(CustomerEmail customerName) // string name = customerEmailInstance
+        {
+            return customerName.Value;
+        }
+
+        public static explicit operator CustomerEmail(string customerName) // CustomerEmail cn = (CustomerEmail) "ime"
+        {
+            return CustomerEmail.Create(customerName).Value;
+        }
     }
 }

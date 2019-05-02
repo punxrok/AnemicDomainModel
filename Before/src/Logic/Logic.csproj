@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSharpFunctionalExtensions, Version=1.18.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CSharpFunctionalExtensions.1.18.1\lib\net461\CSharpFunctionalExtensions.dll</HintPath>
+    <Reference Include="CSharpFunctionalExtensions">
+      <HintPath>..\..\..\..\..\..\..\.nuget\packages\csharpfunctionalextensions\1.18.1\lib\net461\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
@@ -68,7 +68,9 @@
     <Compile Include="Entities\CustomerEmail.cs" />
     <Compile Include="Entities\CustomerName.cs" />
     <Compile Include="Entities\CustomerStatus.cs" />
+    <Compile Include="Entities\Dollars.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\ExpirationDate.cs" />
     <Compile Include="Entities\LicensingModel.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\PurchasedMovie.cs" />

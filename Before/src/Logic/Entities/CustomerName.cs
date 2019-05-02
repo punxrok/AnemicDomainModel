@@ -34,5 +34,16 @@ namespace Logic.Entities
         {
             return Value.GetHashCode();
         }
+
+        public static implicit operator string(CustomerName customerName) // string name = customerNameInstance
+        {
+            return customerName.Value;
+        }
+
+        public static explicit operator CustomerName(string customerName) // CustomerName cn = (CustomerName) "ime"
+        {
+            return CustomerName.Create(customerName).Value;
+        }
+
     }
 }
