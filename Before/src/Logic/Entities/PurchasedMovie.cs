@@ -5,12 +5,12 @@ namespace Logic.Entities
 {
     public class PurchasedMovie : Entity
     {
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual long MovieId { get; set; }
 
         public virtual Movie Movie { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual long CustomerId { get; set; }
 
         public virtual decimal Price { get; set; }

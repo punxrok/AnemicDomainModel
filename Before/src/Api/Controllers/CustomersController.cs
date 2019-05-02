@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CSharpFunctionalExtensions;
 using Logic.Dtos;
 using Logic.Entities;
 using Logic.Repositories;
@@ -35,9 +36,9 @@ namespace Api.Controllers
             var customerDto = new CustomerDto
             {
                 Id = customer.Id,
-                Email = customer.Email,
+                Email = customer.Email.Value,
                 MoneySpent = customer.MoneySpent,
-                Name = customer.Name,
+                Name = customer.Name.Value,
                 Status = customer.Status.ToString(),
                 StatusExpirationDate = customer.StatusExpirationDate,
                 PurchasedMovies = customer.PurchasedMovies.Select(s => new PurchasedMovieDto()
@@ -64,8 +65,8 @@ namespace Api.Controllers
             return Json(customers.Select(c => new CustomerInListDto
             {
                 Id = c.Id,
-                Name = c.Name,
-                Email = c.Email,
+                Name = c.Name.Value,
+                Email = c.Email.Value,
                 Status = c.Status.ToString(),
                 StatusExpirationDate = c.StatusExpirationDate,
                 MoneySpent = c.MoneySpent
@@ -73,23 +74,41 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Customer item)
+        public IActionResult Create([FromBody] CreateCustomerDto item)
         {
             try
             {
-                if (!ModelState.IsValid)
+                var customerNameOrError = CustomerName.Create(item.Name);
+                var customerEmailOrError = CustomerEmail.Create(item.Email);
+
+                var result = Result.Combine(customerEmailOrError,customerEmailOrError);
+
+                if (result.IsFailure)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest(result.Error);
                 }
 
-                if (_customerRepository.GetByEmail(item.Email) != null)
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
+
+                if (_customerRepository.GetByEmail(customerEmailOrError.Value) != null)
                 {
                     return BadRequest("Email is already in use: " + item.Email);
                 }
 
-                item.Id = 0;
-                item.Status = CustomerStatus.Regular;
-                _customerRepository.Add(item);
+                
+                var customer = new Customer
+                {
+                    Name = customerNameOrError.Value,
+                    Email = customerEmailOrError.Value,
+                    MoneySpent = 0,
+                    Status = CustomerStatus.Regular,
+                    StatusExpirationDate = null
+                };
+
+                _customerRepository.Add(customer);
                 _customerRepository.SaveChanges();
 
                 return Ok();
@@ -102,14 +121,20 @@ namespace Api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update(long id, [FromBody] Customer item)
+        public IActionResult Update(long id, [FromBody] UpdateCustomerDto item)
         {
             try
             {
-                if (!ModelState.IsValid)
+                var customerNameOrError = CustomerName.Create(item.Name);
+                if (customerNameOrError.IsFailure)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest(customerNameOrError.Error);
                 }
+
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
 
                 Customer customer = _customerRepository.GetById(id);
                 if (customer == null)
@@ -117,7 +142,7 @@ namespace Api.Controllers
                     return BadRequest("Invalid customer id: " + id);
                 }
 
-                customer.Name = item.Name;
+                customer.Name = customerNameOrError.Value;
                 _customerRepository.SaveChanges();
 
                 return Ok();

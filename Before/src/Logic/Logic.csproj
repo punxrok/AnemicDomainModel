@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSharpFunctionalExtensions, Version=1.18.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSharpFunctionalExtensions.1.18.1\lib\net461\CSharpFunctionalExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -38,7 +41,8 @@
       <HintPath>..\..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Users\Roki\.nuget\packages\newtonsoft.json\10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
@@ -54,16 +58,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\CreateCustomerDto.cs" />
     <Compile Include="Dtos\CustomerDto.cs" />
     <Compile Include="Dtos\CustomerInListDto.cs" />
     <Compile Include="Dtos\MovieDto.cs" />
     <Compile Include="Dtos\PurchasedMovieDto.cs" />
+    <Compile Include="Dtos\UpdateCustomerDto.cs" />
     <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\CustomerEmail.cs" />
+    <Compile Include="Entities\CustomerName.cs" />
     <Compile Include="Entities\CustomerStatus.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\LicensingModel.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\PurchasedMovie.cs" />
+    <Compile Include="Entities\ValueObject.cs" />
     <Compile Include="Mappings\CustomerMap.cs" />
     <Compile Include="Mappings\MovieMap.cs" />
     <Compile Include="Mappings\PurchasedMovieMap.cs" />
