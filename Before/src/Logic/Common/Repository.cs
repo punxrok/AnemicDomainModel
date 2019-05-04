@@ -23,9 +23,9 @@ namespace Logic.Repositories
             _unitOfWork.SaveOrUpdate(entity);
         }
 
-        public void SaveChanges()
-        {
-            _unitOfWork.Commit();
-        }
+        //public void SaveChanges()
+        //{
+        //    _unitOfWork.Commit();
+        //}
     }
 }
